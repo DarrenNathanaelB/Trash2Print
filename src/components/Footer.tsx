@@ -16,11 +16,6 @@ const Footer = () => {
               Mengubah sampah plastik menjadi filament 3D print berkualitas tinggi. 
               Bersama membangun masa depan yang lebih hijau dan berkelanjutan.
             </p>
-            <div className="flex items-center space-x-1 text-sm text-gray-400">
-              <span>Made with</span>
-              <Heart className="text-red-500" size={16} />
-              <span>for the planet</span>
-            </div>
           </div>
 
           {/* Quick Links */}
