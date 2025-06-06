@@ -56,7 +56,7 @@ const DaftarMitra = () => {
   ];
 
   const handleRegisterClick = () => {
-    window.open('https://forms.google.com/trash2print-mitra-registration', '_blank');
+    window.open('https://forms.gle/BB5xGp6ukw1H1f6r8', '_blank');
   };
 
   return (
