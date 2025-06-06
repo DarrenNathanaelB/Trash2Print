@@ -1,4 +1,3 @@
-
 import { ShoppingCart, Star, Award, Truck, ExternalLink, CheckCircle, Package, Zap } from 'lucide-react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
@@ -8,28 +7,31 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 const BuyFilaments = () => {
   const products = [
     {
-      name: "PLA Eco Green",
-      price: "Rp 150.000",
-      originalPrice: "Rp 180.000", 
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop&crop=center",
-      description: "Filament PLA ramah lingkungan dari daur ulang botol plastik. Kualitas premium untuk hasil printing terbaik.",
-      features: ["100% Recycled", "1.75mm diameter", "1kg weight", "Biodegradable"]
+      name: "Bottle Filament",
+      price: "Rp 5.000",
+      originalPrice: "Rp 10.000",
+      image: "/lovable-uploads/image2.png",
+      description: "Filament PET ramah lingkungan dari daur ulang botol plastik. Kualitas premium untuk hasil printing terbaik.",
+      features: ["100% Recycled", "1.75mm diameter", "1kg weight", "Biodegradable"],
+      buyLink: "https://tk.tokopedia.com/ZSkhpM1YC/"
     },
     {
       name: "ABS Eco Strong",
-      price: "Rp 175.000",
-      originalPrice: "Rp 210.000",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop&crop=center",
+      price: "Rp 123.000",
+      originalPrice: "Rp 150.000",
+      image: "/lovable-uploads/image1.png",
       description: "Filament ABS daur ulang dengan kekuatan tinggi. Ideal untuk prototyping dan aplikasi engineering.",
-      features: ["High Strength", "Heat Resistant", "1.75mm diameter", "1kg weight"]
+      features: ["High Strength", "Heat Resistant", "1.75mm diameter", "1kg weight"],
+      buyLink: "https://tk.tokopedia.com/ZSkhcbm2s/"
     },
     {
       name: "PETG Eco Clear",
-      price: "Rp 200.000",
-      originalPrice: "Rp 240.000",
-      image: "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=400&h=300&fit=crop&crop=center",
+      price: "Rp 148.000",
+      originalPrice: "Rp 180.000",
+      image: "/lovable-uploads/image.png",
       description: "Filament PETG transparan dari daur ulang. Kombinasi sempurna antara kekuatan dan transparansi.",
-      features: ["Crystal Clear", "Chemical Resistant", "1.75mm diameter", "1kg weight"]
+      features: ["Crystal Clear", "Chemical Resistant", "1.75mm diameter", "1kg weight"],
+      buyLink: "https://tk.tokopedia.com/ZSkhcpXEF/"
     }
   ];
 
@@ -51,8 +53,34 @@ const BuyFilaments = () => {
     }
   ];
 
-  const handleBuyClick = () => {
-    window.open('https://tokopedia.com/trash2print-filaments', '_blank');
+  const handleBuyClick = async (url: string, productName: string) => {
+
+    try {
+      const response = await fetch('http://localhost:3001/api/log-click', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productName: productName,
+          productLink: url
+        }),
+      });
+
+      const result = await response.json();
+      console.log('Respon dari server log:', result.message);
+
+    } catch (error) {
+      console.error('Gagal menghubungi server log:', error);
+
+    }
+
+    window.open(url, '_blank');
+  };
+
+  const handleGeneralBuyClick = () => {
+    const generalUrl = 'https://tokopedia.com/trash2print-filaments';
+    handleBuyClick(generalUrl, 'General CTA Button');
   };
 
   return (
@@ -61,7 +89,6 @@ const BuyFilaments = () => {
       
       {/* Enhanced Hero Section */}
       <section className="relative bg-gradient-to-br from-trash2print-green-light via-trash2print-green-primary to-trash2print-green-dark py-20 overflow-hidden">
-        {/* Animated Background Elements */}
         <div className="absolute inset-0">
           <div className="absolute top-20 right-10 w-36 h-36 bg-white/10 rounded-full animate-float"></div>
           <div className="absolute bottom-32 left-20 w-28 h-28 bg-yellow-300/20 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
@@ -100,7 +127,7 @@ const BuyFilaments = () => {
             </div>
             <Button 
               size="lg" 
-              onClick={handleBuyClick}
+              onClick={handleGeneralBuyClick}
               className="bg-yellow-400 text-trash2print-green-dark hover:bg-yellow-300 hover:scale-110 transform transition-all duration-300 font-semibold px-10 py-4 text-lg shadow-xl hover:shadow-2xl animate-pulse-glow border-2 border-yellow-300"
               style={{animationDelay: '0.8s'}}
             >
@@ -159,7 +186,7 @@ const BuyFilaments = () => {
                     ))}
                   </div>
                   <Button 
-                    onClick={handleBuyClick}
+                    onClick={() => handleBuyClick(product.buyLink, product.name)}
                     className="w-full bg-trash2print-green-primary hover:bg-trash2print-green-dark hover:scale-105 transform transition-all duration-300 text-white shadow-lg hover:shadow-xl"
                   >
                     Beli Sekarang
@@ -226,7 +253,7 @@ const BuyFilaments = () => {
                 </div>
               </div>
               <Button 
-                onClick={handleBuyClick}
+                onClick={handleGeneralBuyClick}
                 className="bg-trash2print-green-primary hover:bg-trash2print-green-dark hover:scale-105 transform transition-all duration-300 text-white px-8 py-3 shadow-lg hover:shadow-xl"
               >
                 Mulai Berkreasi
@@ -268,7 +295,7 @@ const BuyFilaments = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-bounce-in">
             <Button 
               size="lg" 
-              onClick={handleBuyClick}
+              onClick={handleGeneralBuyClick}
               className="bg-yellow-400 text-trash2print-green-dark hover:bg-yellow-300 hover:scale-110 transform transition-all duration-300 font-semibold px-10 py-4 text-lg shadow-xl hover:shadow-2xl border-2 border-yellow-300 animate-glow"
             >
               Belanja di Tokopedia

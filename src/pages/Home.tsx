@@ -1,5 +1,5 @@
-
-import { ArrowRight, Recycle, Users, ShoppingCart, Play, CheckCircle, Sparkles } from 'lucide-react';
+import { useState } from 'react'; // 1. Impor useState
+import { ArrowRight, Recycle, Users, ShoppingCart, Play, CheckCircle, Sparkles, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
@@ -7,6 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Home = () => {
+  const [isVideoModalOpen, setVideoModalOpen] = useState(false);
+  
+  const youtubeVideoUrl = "https://youtube.com/embed/DDnTy_D2OCs?autoplay=1"; // Tambahkan autoplay=1 agar video langsung main
+
   const features = [
     {
       icon: <Recycle className="text-trash2print-green-primary" size={48} />,
@@ -37,9 +41,8 @@ const Home = () => {
     <div className="min-h-screen bg-white overflow-hidden">
       <Navigation />
       
-      {/* Hero Section with Enhanced Animations */}
+      {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-trash2print-green-light via-trash2print-green-primary to-trash2print-green-dark min-h-screen flex items-center overflow-hidden">
-        {/* Animated Background Elements */}
         <div className="absolute inset-0">
           <div className="absolute top-20 left-10 w-32 h-32 bg-white/10 rounded-full animate-float"></div>
           <div className="absolute top-40 right-20 w-24 h-24 bg-yellow-300/20 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
@@ -83,7 +86,7 @@ const Home = () => {
               <div className="bg-white/10 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-white/20 hover:bg-white/15 transition-all duration-500">
                 <div className="relative overflow-hidden rounded-2xl">
                   <img 
-                    src="/lovable-uploads/7688b3a7-4ffe-4e17-9f8c-7125548a93ee.png" 
+                    src="/lovable-uploads/Render_Trash2Print.png" 
                     alt="Trash2Print Process" 
                     className="w-full h-auto transform hover:scale-105 transition-transform duration-500"
                   />
@@ -95,7 +98,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section with Staggered Animations */}
+      {/* Features Section */}
       <section className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-10 right-10 w-64 h-64 bg-trash2print-green-light/5 rounded-full blur-3xl"></div>
@@ -129,7 +132,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Process Section with Advanced Animations */}
+      {/* Process Section */}
       <section className="py-20 bg-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-trash2print-green-light/5 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -151,13 +154,20 @@ const Home = () => {
             </div>
             <div className="relative animate-slide-in-right">
               <div className="bg-gradient-to-br from-trash2print-green-light to-trash2print-green-primary p-8 rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 group">
-                <div className="bg-white p-6 rounded-2xl group-hover:bg-gray-50 transition-colors duration-300">
-                  <div className="flex items-center justify-center h-40 group-hover:animate-pulse">
-                    <Play className="text-trash2print-green-primary hover:scale-110 transition-transform duration-300 cursor-pointer" size={64} />
+                <div 
+                  className="relative p-6 rounded-2xl h-60 flex items-center justify-center cursor-pointer overflow-hidden bg-cover bg-center"
+                  style={{ backgroundImage: `url('/lovable-uploads/Tumbnail.png')` }}
+                  onClick={() => setVideoModalOpen(true)}
+                >
+                  <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-50 transition-opacity duration-300"></div>
+                  <div className="relative z-10 text-center text-white">
+                    <div className="flex justify-center">
+                      <Play className="group-hover:scale-110 transition-transform duration-300" size={64} />
+                    </div>
+                    <p className="mt-4 font-semibold">
+                      Video Proses Daur Ulang
+                    </p>
                   </div>
-                  <p className="text-center text-gray-600 mt-4 font-medium group-hover:text-trash2print-green-primary transition-colors duration-300">
-                    Video Proses Daur Ulang
-                  </p>
                 </div>
               </div>
             </div>
@@ -197,6 +207,38 @@ const Home = () => {
       </section>
 
       <Footer />
+
+      {/* 4. Tambahkan JSX untuk Modal Video di sini */}
+      {isVideoModalOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 animate-fade-in"
+          onClick={() => setVideoModalOpen(false)} // Menutup modal saat klik di luar video
+        >
+          <div 
+            className="relative bg-black p-2 rounded-lg w-full max-w-4xl shadow-2xl"
+            onClick={(e) => e.stopPropagation()} // Mencegah modal tertutup saat klik di dalam video
+          >
+            <button
+              onClick={() => setVideoModalOpen(false)}
+              className="absolute -top-3 -right-3 bg-white text-black rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold z-10 hover:bg-gray-200 transition-all"
+            >
+              <X size={20} />
+            </button>
+            {/* Container untuk menjaga aspect ratio 16:9 */}
+            <div className="relative" style={{ paddingTop: '56.25%' }}>
+              <iframe
+                className="absolute top-0 left-0 w-full h-full rounded-md"
+                src={youtubeVideoUrl}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
